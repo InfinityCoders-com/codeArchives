@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roof</title>
+    <style>
+        :root {
+            --outer-height: 238em;
+            --outer-width: 466em;
+            --inner-height: 227em;
+            --inner-width: 455em;
+        }
+        body {
+            margin: 0;
+            background: radial-gradient(rgb(37, 103, 162), rgb(25, 85, 144));
+            position: relative;
+            font-size: 2px;
+        }
+        div {
+            border: 1px solid #999;
+            display: block;
+        }
+        .layout {
+            height: 95vh;
+            width: 95vw;
+            padding: 30em;
+            display: block;
+            box-sizing: border-box;
+            margin: 2.5vh auto;
+            position: relative;
+            overflow: auto;
+        }
+        .metrices {
+            position: absolute;
+            right: 2.5vw;
+            top: 0vh;
+            background: #000;
+            color: #eee;
+            font-size: 16px;
+            padding: 1em;
+        }
+        .outer {
+            background: radial-gradient(rgb(37, 103, 162), rgb(25, 85, 144));
+            position: absolute;
+            padding: 5.5em;
+            box-sizing: border-box;
+        }
+        .outer:after, .outer:before {
+            content: '';
+            display: block;
+            position: absolute;
+            padding: 2.5em;
+            background: transparent;
+        }
+        .inner {
+            height: 100%;
+            width: 100%;
+            box-sizing: border-box;
+            display: inline-block;
+            position: relative;
+        }
+        /*============ boundary =============*/
+        .boundary.outer {
+            height: var(--outer-height);
+            width: var(--outer-width);
+        }
+        /*============ shaft back =============*/
+        .shaft.outer.back {
+            left: -5.5em;
+            bottom: -5.5em;
+            height: 41.5em;
+            width: 36em;
+            padding-bottom: 11em;
+            border-bottom: 0;
+            border-left: 0;
+        }
+        .back.outer:after {
+            left: 0;
+            top: -1px;
+        }
+        .back.outer:before {
+            bottom: 0;
+            right: -1px;
+        }
+        /*============ room =============*/
+        .room.outer {
+            height: 72em;
+            width: 132em;
+            padding: 3em;
+            left: 55em;
+            top: -3em;
+        }
+        .room.outer:after, .room.outer:before {
+            display: none;
+        }
+        /*============ shaft left =============*/
+        .shaft.outer.left {
+            height: 35.5em;
+            width: 34em;
+            top: -5.5em;
+            left: 184em;
+            border-top: 0;
+        }
+        .left.outer:after {
+            left: -1px;
+            top: 0px;
+        }
+        .left.outer:before {
+            top: 0;
+            right: -1px;
+        }
+        .water-tank-area {
+            height: 43em;
+            width: 168em;
+            left: 30em;
+            bottom: -0.5em;
+            background: radial-gradient(rgb(37, 103, 162), rgb(25, 85, 144));
+            position: absolute;
+            padding: 5.5em;
+            box-sizing: border-box;
+        }
+        .tank {
+            position: relative;
+            padding: 12em;
+            bottom: 4em;
+            border-radius: 24em;
+            display: inline-block;
+            box-sizing: border-box;
+        }
+        .tank:after,
+        .tank:before {
+            padding: 3em 6em;
+            border: 1px solid #777;
+            content: "";
+            background: transparent;
+            position: absolute;
+            display: block;
+            z-index: 0;
+        }
+        .tank:after {
+            transform: rotate(70deg) translate(-47px, -10px);
+        }
+        .tank:before {
+            transform: rotate(70deg) translate(35px, 1px);
+        }
+        .tank.two {
+            left: 5em;
+        }
+        .tank.three {
+            left: 33em;
+        }
+        .tank-inner {
+            padding: 7em;
+            border-radius: 7em;
+            box-sizing: border-box;
+            border: 1px solid #777;
+            display: inline-block;
+        }
+        .tank-inner:after,
+        .tank-inner:before {
+            padding: 3em 6em;
+            border: 1px solid #777;
+            content: "";
+            background: transparent;
+            position: absolute;
+            display: block;
+            z-index: 0;
+        }
+        .tank-inner:after {
+            transform: rotate(160deg) translate(-17px, 11px);
+        }
+        .tank-inner:before {
+            transform: rotate(160deg) translate(37px, 12px);
+        }
+        /*============ pillars =============*/
+        .pillar.outer.front {
+            height: 10em;
+            top: 66em;
+            right: 0em;
+            padding: 2.25em;
+            border-right: 0;
+        }
+        .pillar.front.outer:after {
+            right: -1px;
+            top: 0px;
+        }
+        .pillar.front.outer:before {
+            bottom: 0;
+            right: -1px;
+        }
+        .pillar.outer.right-front, .pillar.outer.right-middle, .pillar.outer.right-middle-tank {
+            padding: 2.25em;
+            border-bottom: 0;
+        }
+        .pillar.outer.right-front {
+            width: 16em;
+            bottom: 0em;
+            right: 40em;
+        }
+        .outer.right-front:after, .outer.right-middle:after, .outer.right-middle-tank:after,
+        .outer.right-front:before, .outer.right-middle:before, .outer.right-middle-tank:before {
+            padding: 2em 4em;
+        }
+        .pillar.right-front.outer:after {
+            right: 1px;
+            bottom: -1px;
+        }
+        .pillar.right-front.outer:before {
+            bottom: -1px;
+            left: 1px;
+        }
+        .pillar.outer.right-middle {
+            width: 16em;
+            bottom: 0em;
+            right: 162em;
+        }
+        .pillar.right-middle.outer:after {
+            right: 0px;
+            bottom: -1px;
+        }
+        .pillar.right-middle.outer:before {
+            bottom: -1px;
+            left: 0px;
+        }
+        .pillar.outer.right-middle-tank {
+            width: 16em;
+            bottom: 0em;
+            right: 296em;
+        }
+        .pillar.right-middle-tank.outer:after {
+            right: 0px;
+            bottom: -1px;
+        }
+        .pillar.right-middle-tank.outer:before {
+            bottom: -1px;
+            left: 0px;
+        }
+        /*============== pipe ==============*/
+        .pipe {
+            padding: 3em;
+            border-radius: 3em;
+            display: inline-block;
+        }
+        .pipe.front {
+            right: 70em;
+            top: .5em;
+            position:absolute;
+        }
+        .pipe.front-two {
+            right: 63em;
+            top: .5em;
+            position:absolute;
+        }
+        .pipe.tank-one {
+            right: 190em;
+            bottom: .5em;
+            position:absolute;
+        }
+        .pipe.tank-two {
+            right: 183em;
+            bottom: .5em;
+            position:absolute;
+        }
+        /*=========== inc-dec ==============*/
+        .inc-dec {
+            list-style-type: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+        .inc-dec li {
+            flex-grow: 1;
+            text-align: center;
+            padding: 7px 10px;
+            font-size: 18px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+        .inc-dec li:first-child {
+            border-right: 1px solid #ccc;
+        }
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div id="outer" class="boundary outer" title="Boundary 38 Feet X 19 Feet">
+            <div class="boundary inner" title="Carpet area 38 feet x 19 feet">
+                <div class="shaft outer back" title="Backside shaft boundary">
+                    <div class="shaft inner" title="Backside shaft inner space 2 Feet X 2 Feet"></div>
+                </div>
+                <div class="shaft outer left" title="Left shaft boundary">
+                    <div class="shaft inner" title="Left shaft inner space 2 Feet X 2 Feet"></div>
+                </div>
+                <div class="room outer" title="room boundary width 3inch">
+                    <div class="room inner" title="room space 11 Feet X 6 Feet"></div>
+                </div>
+                <div class="water-tank-area outer" title="Water tank area">
+                    <div class="tank one" title="Water tank 1st">
+                        <div class="tank-inner"></div>
+                    </div>
+                    <div class="tank two" title="Water tank 2nd">
+                        <div class="tank-inner"></div>
+                    </div>
+                    <div class="tank three" title="Water tank 3rd">
+                        <div class="tank-inner"></div>
+                    </div>
+                </div>
+                <div class="pillar outer front" title="Pillar"></div>
+                <div class="pipe front" title="Exhaust Pipe"></div>
+                <div class="pipe front-two" title="Exhaust Pipe"></div>
+                <div class="pillar outer right-front" title="Pillar"></div>
+                <div class="pillar outer right-middle" title="Pillar"></div>
+                <div class="pipe tank-one" title="Exhaust Pipe"></div>
+                <div class="pipe tank-two" title="Exhaust Pipe"></div>
+                <div class="pillar outer right-middle-tank" title="Pillar"></div>
+            </div>
+        </div>
+    </div>
+    <div class="metrices d-none">
+        <ul class="inc-dec">
+            <li onclick="alter('+')">+</li>
+            <li onclick="alter('-')">-</li>
+        </ul>
+        <span>1 inch = <i id="size"></i> em</span>
+    </div>
+</body>
+<script>
+    var root = 2
+    var outer = document.getElementById('size');
+    size.innerHTML = root;
+    function alter(func) {
+        console.log(func);
+        if(func == '-' && root > 1) {
+            root--;
+            console.log(root);
+        }
+        if(func == '+') {
+            root++;
+            console.log(root);
+        }
+        document.body.style.fontSize = root + "px";
+        size.innerHTML = root
+    }
+</script>
+</html>
