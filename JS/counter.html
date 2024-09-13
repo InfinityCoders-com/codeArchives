@@ -1,0 +1,65 @@
+<html>
+	<head>
+		<title>Calendar Counter</title>
+		<style>
+			body										   { padding: 50px 200px;}
+			.counter									{ position:relative; display: flex;display: -webkit-flex; justify-content: center; margin: 0 auto; color:#fff; width: 80%;}
+			.counter > div[id]					 { padding:5px 2px; background:rgba(0,0,0,0.5); float:left; margin:1px;  text-align:center; -webkit-flex-grow: 1; flex-grow: 1;}
+			.counter > div[id] > div[id]  { position:relative; top:10px; font-size:40px; padding:5px 2px; background:rgba(0,0,0,0.5); margin:5px 5px 15px; min-height: 50px;	}
+			.counter span						  { position:relative; bottom:0; left: 0; padding:5px; font-weight:bold;  margin:12px; 	}
+			.clear										   { clear:both;}
+		</style>
+	</head>
+	<body>
+		<div class="counter">
+			<div id="year">	<div id="year_c"></div>	<span>YEARS</span>	<div class="clear"></div>	</div>
+			<div id="day">	<div id="day_c"></div>	<span>DAYS</span>	<div class="clear"></div>	</div>
+			<div id="hour">	<div id="hour_c"></div>	<span>HOURS</span>	<div class="clear"></div>	</div>
+			<div id="min">	<div id="min_c"></div>	<span>MINS</span>	<div class="clear"></div>	</div>
+			<div id="sec">	<div id="sec_c"></div>	<span>SECS</span>	<div class="clear"></div>	</div>
+			<div class="clear"></div>
+		</div>
+	</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+	// year is in 4 digits
+	// mm month is in digits from 0 to 11 january to december respectively
+	//date in the reference yyyy,mm,dd,hour,min,sec,milliseconds
+	var fut_date = new Date(2020, 1, 1, 00, 00, 00, 00);
+	var fut_sec = fut_date.getTime();
+	var cur_date = new Date();
+	var cur_sec = cur_date.getTime();
+	var difference = fut_sec - cur_sec;
+$(window).ready(function(){
+	// no of milliseconds
+	// no of sec  = milliseconds / 1000;
+	// no of min  = milliseconds / (1000*60); or milliseconds / 60,000;
+	// no of hour = milliseconds / (1000*60*60); or milliseconds / 36,00,000;
+	// no of day  = milliseconds / (1000*60*60*24); or milliseconds / 8,64,00,000;
+	// no of year  = milliseconds / (1000*60*60*24*365); or milliseconds / 31,53,60,00,000;
+	var d_year = parseInt( difference / (1000*60*60*24*365) );
+	var d_day = parseInt( ( difference - ( d_year * 31536000000 ) ) / ( 1000*60*60*24 ) );
+	var d_hour = parseInt( ( difference - ( ( d_year * 31536000000 ) + ( d_day * 86400000 ) ) ) / 3600000 );
+	var d_min = parseInt( ( difference - ( ( d_year * 31536000000 ) + ( d_day * 86400000 ) + ( d_hour * 3600000 ) ) ) / 60000);
+	var d_sec = parseInt( ( difference - ( ( d_year * 31536000000 ) + ( d_day * 86400000 ) + ( d_hour * 3600000 ) + ( d_min * 60000 ) ) ) / 1000);
+	setInterval(function(){
+		d_year <= 1 ? $("#year span").html('YEAR') : $("#year span").html('YEARS');
+		d_day <= 1 ? $("#day span").html('DAY') : $("#day span").html('DAYS');
+		d_hour <= 1 ? $("#hour span").html('HOUR') : $("#hour span").html('HOURS');
+		d_min <= 1 ? $("#min span").html('MIN') : $("#min span").html('MINS');
+		d_sec <= 1 ? $("#sec span").html('SEC') : $("#sec span").html('SECS');
+
+		$("#year_c").html(d_year).css('transition','.5s');
+		$("#day_c").html(d_day).css('transition','.5s');
+		$("#hour_c").html(d_hour).css('transition','.5s');
+		$("#min_c").html(d_min).css('transition','.5s');
+		$("#sec_c").html(d_sec).css('transition','.5s');
+		d_sec=d_sec-1;
+		if(d_sec==-1){ d_sec=59; d_min-=1; }
+		if(d_min==-1){ d_min=59; d_hour-=1; }
+		if(d_hour==-1){ d_hour=23; d_day-=1; }
+		if(d_day==-1){ d_day=365; d_year-=1; }
+	}, 1000);
+});
+</script>
